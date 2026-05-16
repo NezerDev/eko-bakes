@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKO BAKES | Fresh from the Oven in Lagos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="glass-nav">
+        <div class="logo">EKO BAKES</div>
+        
+        <div class="search-container rounded">
+            <input type="text" placeholder="Search pastries, cakes..." class="search-bar rounded">
+        </div>
+
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#shop">Menu</a></li>
+            <li><a href="#shop">Categories</a></li> 
+            <li><a href="#">About Us</a></li>
+        </ul>
+
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content glass-card rounded">
+            <h1>Freshly Baked Goodness in the Heart of Lagos</h1>
+            <p>Discover our warm, mouth-watering artisan breads, rich pastries, and signature cakes.</p>
+            <a href="#shop" class="btn rounded">Order Now</a>
+        </div>
+    </header>
+
+    <section class="stats">
+        <h2>Enjoyed by thousands of Lagosians every single day</h2>
+        <div class="stats-grid">
+            <div class="stat-box rounded glass-card">
+                <h3>100+</h3>
+                <p>Baked Goods</p>
+            </div>
+            <div class="stat-box rounded glass-card">
+                <h3>20+</h3>
+                <p>Flavors</p>
+            </div>
+            <div class="stat-box rounded glass-card">
+                <h3>99%</h3>
+                <p>Satisfaction</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="products">
+        <h2>Explore the Eko Bakes Menu</h2>
+        
+        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap;">
+            <button class="category-btn active" data-filter="all" style="background: #1E1A17; color: #fff; border: 1px solid #1E1A17; padding: 8px 20px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Lato', sans-serif;">All</button>
+            <button class="category-btn" data-filter="bread" style="background: transparent; color: #1E1A17; border: 1px solid rgba(30,26,23,0.2); padding: 8px 20px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Lato', sans-serif;">Bread</button>
+            <button class="category-btn" data-filter="pastries" style="background: transparent; color: #1E1A17; border: 1px solid rgba(30,26,23,0.2); padding: 8px 20px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Lato', sans-serif;">Pastries</button>
+            <button class="category-btn" data-filter="cakes" style="background: transparent; color: #1E1A17; border: 1px solid rgba(30,26,23,0.2); padding: 8px 20px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Lato', sans-serif;">Cakes</button>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card rounded" data-category="bread">
+                <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?auto=format&fit=crop&q=80&w=400" alt="Fresh Loaf">
+                <div class="product-info">
+                    <h4>Eko Signature Bread</h4>
+                    <p class="price">₦1,500.00</p>
+                    <button class="add-to-cart-btn rounded">Add to Cart</button> 
+                </div>
+            </div>
+            <div class="product-card rounded" data-category="pastries">
+                <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&q=80&w=400" alt="Meat Pie">
+                <div class="product-info">
+                    <h4>Spicy Nigerian Meat Pie</h4>
+                    <p class="price">₦1,200.00</p>
+                    <button class="add-to-cart-btn rounded">Add to Cart</button> 
+                </div>
+            </div>
+            <div class="product-card rounded" data-category="pastries">
+                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&q=80&w=400" alt="Chin Chin">
+                <div class="product-info">
+                    <h4>Crunchy Chin Chin Jar</h4>
+                    <p class="price">₦3,000.00</p>
+                    <button class="add-to-cart-btn rounded">Add to Cart</button> 
+                </div>
+            </div>
+            <div class="product-card rounded" data-category="cakes">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=400" alt="Celebration Cake">
+                <div class="product-info">
+                    <h4>Red Velvet Celebration Cake</h4>
+                    <p class="price">₦18,000.00</p>
+                    <button class="add-to-cart-btn rounded">Add to Cart</button> 
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="floating-cart glass-card" id="floating-cart">
+        🛒 <span class="cart-count" id="cart-count">0</span>
+    </div>
+
+    <script src="script.js"></script>
+    <div id="cart-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:3000;">
+        <div class="glass-card rounded" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:400px; padding:2rem; background:#F6F4F0;">
+            <h2 style="margin-bottom:1rem;">Your Order</h2>
+            <div id="cart-items-list" style="max-height:300px; overflow-y:auto; margin-bottom:1rem;">
+                </div>
+            <hr style="border:0; border-top:1px solid #3A2C23; margin-bottom:1rem;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:1.5rem;">
+                <span>Total:</span>
+                <span id="cart-total-display">₦0.00</span>
+            </div>
+            <button id="whatsapp-checkout-btn" class="btn rounded" style="background:#25D366; border:none; color:white;">Checkout on WhatsApp</button>
+            <button id="close-cart" style="background:none; border:none; color:#3A2C23; display:block; width:100%; margin-top:10px; cursor:pointer; font-size:0.8rem;">Continue Shopping</button>
+        </div>
+    </div>
+
+</body>
+</html>

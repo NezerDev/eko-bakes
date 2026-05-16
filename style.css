@@ -1,0 +1,162 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* Premium Color Palette & Variables */
+:root {
+    --bg-color: #FDFBF7; /* Elegant, light ivory */
+    --text-dark: #1E1A17; /* Rich Espresso Charcoal */
+    --accent-color: #B5854A; /* Champagne Gold / Bronze */
+    --card-bg: #FFFFFF;
+    --shadow-subtle: 0 12px 30px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
+    --border-light: rgba(30, 26, 23, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: var(--bg-color); color: var(--text-dark); font-family: 'Lato', sans-serif; line-height: 1.6; }
+h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; }
+
+/* Soft curved corners for product cards and images */
+.rounded { border-radius: 12px; }
+
+/* Crisp premium card backgrounds */
+.glass-card { 
+    background: var(--card-bg); 
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-subtle); 
+}
+
+/* --- NAVIGATION & SEARCH --- */
+.glass-nav {
+    position: fixed; 
+    top: 0; left: 0; width: 100%; 
+    display: flex; flex-wrap: wrap; 
+    justify-content: space-between; align-items: center; 
+    padding: 1.2rem 5%; 
+    z-index: 1000; 
+    background: rgba(253, 251, 247, 0.98);
+    backdrop-filter: blur(20px); 
+    border-bottom: 1px solid var(--border-light);
+}
+
+.logo { 
+    font-size: 1.5rem; 
+    font-weight: 600; 
+    letter-spacing: 4px; 
+    text-transform: uppercase;
+}
+
+.menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+.bar { width: 25px; height: 2px; background-color: var(--text-dark); }
+
+.nav-links { display: none; list-style: none; }
+.nav-links li a { text-decoration: none; color: var(--text-dark); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;}
+
+/* Search Bar Input */
+.search-container { width: 100%; order: 3; margin-top: 15px; }
+.search-bar { 
+    width: 100%; 
+    padding: 10px 0; 
+    background: transparent; 
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 0; 
+    font-family: 'Lato', sans-serif;
+    font-size: 15px; 
+    outline: none; 
+    transition: border-color 0.3s ease;
+}
+.search-bar:focus { border-bottom-color: var(--accent-color); }
+
+/* --- HERO SECTION --- */
+.hero { 
+    height: 85vh; 
+    background: linear-gradient(rgba(30, 26, 23, 0.6), rgba(30, 26, 23, 0.4)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1200') center/cover; 
+    display: flex; align-items: center; justify-content: center; 
+    padding: 1rem; padding-top: 100px; 
+}
+
+.hero-content.glass-card { 
+    background: transparent; border: none; box-shadow: none; color: #fff; max-width: 800px; 
+}
+.hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; margin-bottom: 1rem; letter-spacing: 1px; }
+.hero-content p { font-size: 1.1rem; font-weight: 300; margin-bottom: 2.5rem; opacity: 0.9; }
+
+/* --- BUTTONS --- */
+.btn, .add-to-cart-btn {
+    display: inline-block; width: 100%; padding: 14px 24px; text-align: center;
+    text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;
+    cursor: pointer; transition: all 0.3s ease; font-weight: 600;
+}
+.btn { background: var(--accent-color); color: #fff; text-decoration: none; border: none; }
+.btn:hover { background: #9c713d; transform: translateY(-2px); }
+
+.add-to-cart-btn { background: var(--text-dark); color: #fff; border: none; margin-top: 1rem; }
+.add-to-cart-btn:hover { background: var(--accent-color); }
+
+/* --- MILESTONE STATS SECTION (Floating Pill Badges) --- */
+.stats { padding: 0 5%; position: relative; z-index: 10; margin-top: -2.5rem; }
+.stats h2 { display: none; } 
+.stats-grid { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.stat-box { 
+    min-width: 140px; 
+    max-width: 210px;
+    padding: 0.8rem 1.5rem; 
+    text-align: center; 
+    flex: 1;
+    border-radius: 50px !important; /* Perfect oval capsule layout */
+    transition: transform 0.3s ease;
+}
+.stat-box:hover { transform: translateY(-5px); }
+.stat-box h3 { color: var(--accent-color); font-size: 1.8rem; font-weight: 600; line-height: 1.2; }
+.stat-box p { text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; margin-top: 2px; opacity: 0.8; }
+
+/* --- PRODUCTS MENU SECTION --- */
+.products { padding: 5rem 5%; }
+.products h2 { font-size: 2.5rem; margin-bottom: 3rem; font-weight: 400; color: var(--text-dark); }
+.product-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 3rem; 
+}
+.product-card { 
+    overflow: hidden; 
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+.product-card img { width: 100%; height: 280px; object-fit: cover; }
+.product-info { padding: 2rem; text-align: center; }
+.product-info h4 { font-family: 'Lato', sans-serif; font-size: 1.1rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
+.price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent-color); font-weight: 600; margin: 1rem 0; }
+
+/* --- MODERN PILL CATEGORY FILTER BUTTONS --- */
+.category-btn {
+    border-radius: 30px !important; /* Elegant oval shape */
+    padding: 6px 16px !important; /* Reduced layout width/height box boundaries */
+    font-size: 0.75rem !important; /* Balanced typographic scaling */
+    transition: all 0.3s ease;
+}
+
+/* --- FLOATING CART --- */
+.floating-cart {
+    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    font-size: 1.5rem; z-index: 2000; box-shadow: var(--shadow-hover);
+    background: var(--card-bg); border: 1px solid var(--border-light); cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.floating-cart:hover { transform: scale(1.05); }
+.cart-count {
+    position: absolute; top: -5px; right: -5px; background: var(--accent-color);
+    color: #fff; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem;
+    display: flex; justify-content: center; align-items: center; font-weight: bold;
+}
+
+/* Responsive Desktop Tweaks */
+@media (min-width: 768px) {
+    .menu-toggle { display: none; }
+    .nav-links { display: flex; gap: 2rem; order: 2; }
+    .search-container { width: 250px; order: 3; margin-top: 0; }
+    .glass-nav { flex-wrap: nowrap; padding: 1.2rem 5%; }
+}
