@@ -1,12 +1,13 @@
 html {
     scroll-behavior: smooth;
+    background-color: #FDFBF7; /* Moved the solid backdrop color here */
 }
 
 /* Premium Color Palette & Variables */
 :root {
-    --bg-color: #FDFBF7; /* Elegant, light ivory */
-    --text-dark: #1E1A17; /* Rich Espresso Charcoal */
-    --accent-color: #B5854A; /* Champagne Gold / Bronze */
+    --bg-color: #FDFBF7; 
+    --text-dark: #1E1A17; 
+    --accent-color: #B5854A; 
     --card-bg: #FFFFFF;
     --shadow-subtle: 0 12px 30px rgba(0, 0, 0, 0.04);
     --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -14,17 +15,47 @@ html {
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background-color: var(--bg-color); color: var(--text-dark); font-family: 'Lato', sans-serif; line-height: 1.6; }
+
+body { 
+    background: transparent; /* Allows the 3D container to stay visible */
+    color: var(--text-dark); 
+    font-family: 'Lato', sans-serif; 
+    line-height: 1.6; 
+}
+
 h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; }
 
-/* Soft curved corners for product cards and images */
 .rounded { border-radius: 12px; }
 
-/* Crisp premium card backgrounds */
 .glass-card { 
     background: var(--card-bg); 
     border: 1px solid var(--border-light);
     box-shadow: var(--shadow-subtle); 
+}
+
+/* --- 3D PARALLAX ELEMENTS --- */
+.parallax-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none; 
+    z-index: 0; 
+    overflow: hidden;
+}
+
+.parallax-item {
+    position: absolute;
+    font-size: 5rem; 
+    filter: drop-shadow(0px 25px 20px rgba(0, 0, 0, 0.15));
+    will-change: transform; 
+}
+
+/* Ensure main content sits above the 3D elements */
+.glass-nav, .hero, .stats, .products {
+    position: relative;
+    z-index: 10;
 }
 
 /* --- NAVIGATION & SEARCH --- */
@@ -34,7 +65,6 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
     display: flex; flex-wrap: wrap; 
     justify-content: space-between; align-items: center; 
     padding: 1.2rem 5%; 
-    z-index: 1000; 
     background: rgba(253, 251, 247, 0.98);
     backdrop-filter: blur(20px); 
     border-bottom: 1px solid var(--border-light);
@@ -53,7 +83,6 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
 .nav-links { display: none; list-style: none; }
 .nav-links li a { text-decoration: none; color: var(--text-dark); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;}
 
-/* Search Bar Input */
 .search-container { width: 100%; order: 3; margin-top: 15px; }
 .search-bar { 
     width: 100%; 
@@ -95,8 +124,8 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
 .add-to-cart-btn { background: var(--text-dark); color: #fff; border: none; margin-top: 1rem; }
 .add-to-cart-btn:hover { background: var(--accent-color); }
 
-/* --- MILESTONE STATS SECTION (Floating Pill Badges) --- */
-.stats { padding: 0 5%; position: relative; z-index: 10; margin-top: -2.5rem; }
+/* --- MILESTONE STATS SECTION --- */
+.stats { padding: 0 5%; margin-top: -2.5rem; }
 .stats h2 { display: none; } 
 .stats-grid { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
 .stat-box { 
@@ -105,7 +134,7 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
     padding: 0.8rem 1.5rem; 
     text-align: center; 
     flex: 1;
-    border-radius: 50px !important; /* Perfect oval capsule layout */
+    border-radius: 50px !important; 
     transition: transform 0.3s ease;
 }
 .stat-box:hover { transform: translateY(-5px); }
@@ -123,6 +152,7 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
 .product-card { 
     overflow: hidden; 
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: var(--card-bg); /* Added background so items don't show THROUGH the cards */
 }
 .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
 .product-card img { width: 100%; height: 280px; object-fit: cover; }
@@ -130,20 +160,31 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
 .product-info h4 { font-family: 'Lato', sans-serif; font-size: 1.1rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
 .price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent-color); font-weight: 600; margin: 1rem 0; }
 
-/* --- MODERN PILL CATEGORY FILTER BUTTONS --- */
 .category-btn {
-    border-radius: 30px !important; /* Elegant oval shape */
-    padding: 6px 16px !important; /* Reduced layout width/height box boundaries */
-    font-size: 0.75rem !important; /* Balanced typographic scaling */
+    border-radius: 30px !important; 
+    padding: 6px 16px !important; 
+    font-size: 0.75rem !important; 
     transition: all 0.3s ease;
 }
 
 /* --- FLOATING CART --- */
 .floating-cart {
-    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-    border-radius: 50%; display: flex; justify-content: center; align-items: center;
-    font-size: 1.5rem; z-index: 2000; box-shadow: var(--shadow-hover);
-    background: var(--card-bg); border: 1px solid var(--border-light); cursor: pointer;
+    position: fixed !important; 
+    bottom: 25px !important;       
+    right: 25px !important;        
+    left: auto !important;         
+    width: 60px; 
+    height: 60px;
+    border-radius: 50%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 1.5rem; 
+    z-index: 9999 !important;      
+    box-shadow: var(--shadow-hover);
+    background: var(--card-bg); 
+    border: 1px solid var(--border-light); 
+    cursor: pointer;
     transition: transform 0.3s ease;
 }
 .floating-cart:hover { transform: scale(1.05); }
@@ -153,7 +194,6 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; text-align: center; 
     display: flex; justify-content: center; align-items: center; font-weight: bold;
 }
 
-/* Responsive Desktop Tweaks */
 @media (min-width: 768px) {
     .menu-toggle { display: none; }
     .nav-links { display: flex; gap: 2rem; order: 2; }

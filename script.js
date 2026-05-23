@@ -137,4 +137,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- 6. 3D Parallax Scroll Effect ---
+    const parallaxItems = document.querySelectorAll('.parallax-item');
+
+    window.addEventListener('scroll', () => {
+        window.requestAnimationFrame(() => {
+            let scrollY = window.scrollY;
+
+            parallaxItems.forEach(item => {
+                let speed = parseFloat(item.getAttribute('data-speed'));
+                let rotationSpeed = parseFloat(item.getAttribute('data-rotation'));
+                
+                let yPos = scrollY * speed;
+                let rotation = scrollY * rotationSpeed;
+
+                item.style.transform = `translate3d(0px, ${yPos}px, 0px) rotate3d(1, 1, 0, ${rotation}deg)`;
+            });
+        });
+    });
 });
