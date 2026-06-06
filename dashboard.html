@@ -60,6 +60,30 @@
         }
         .shake { animation:shake .4s ease; }
 
+        /* ── CHANGE PASSWORD MODAL ── */
+        #pwd-modal-overlay {
+            position:fixed; inset:0; background:rgba(30,26,23,.5);
+            display:flex; align-items:center; justify-content:center;
+            z-index:9998; padding:1rem; backdrop-filter:blur(4px);
+        }
+        .pwd-modal-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:20px; padding:2.5rem 2.5rem;
+            width:100%; max-width:420px; box-shadow:var(--shadow-md); text-align:center;
+        }
+        .pwd-modal-card h2 { font-family:'Playfair Display',serif; font-weight:400; font-size:1.6rem; margin-bottom:.4rem; }
+        .pwd-modal-card > p { color:var(--muted); font-size:.88rem; margin-bottom:1.75rem; }
+        .pwd-feedback { margin-top:1rem; font-size:.85rem; }
+        .pwd-feedback.success { color:var(--green); }
+        .pwd-feedback.error   { color:var(--red); }
+        .pwd-cancel {
+            display:block; width:100%; margin-top:.75rem; padding:11px;
+            background:transparent; border:1.5px solid var(--border); border-radius:12px;
+            font-family:'Lato',sans-serif; font-size:.8rem; font-weight:600; letter-spacing:1.5px;
+            text-transform:uppercase; cursor:pointer; color:var(--muted); transition:all .3s;
+        }
+        .pwd-cancel:hover { border-color:var(--dark); color:var(--dark); }
+
         /* ── HEADER ── */
         #dashboard { min-height:100vh; display:flex; flex-direction:column; }
         .dash-header {
@@ -96,6 +120,42 @@
         .stat-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
         .stat-number { font-family:'Playfair Display',serif; font-size:2rem; color:var(--accent); font-weight:600; line-height:1; margin-bottom:.4rem; word-break:break-word; }
         .stat-label { font-size:.7rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); font-weight:600; }
+
+        /* ── SITE ANALYTICS CHART ── */
+        .visit-chart-wrap {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:16px; padding:1.75rem 2rem; box-shadow:var(--shadow);
+        }
+        .chart-subtitle {
+            font-size:.75rem; letter-spacing:1.5px; text-transform:uppercase;
+            color:var(--muted); font-weight:600; margin-bottom:1.5rem;
+        }
+        .chart-bars-area {
+            display:flex; align-items:flex-end; gap:8px; height:120px;
+        }
+        .chart-col {
+            flex:1; display:flex; flex-direction:column;
+            align-items:center; justify-content:flex-end; height:100%; gap:4px;
+        }
+        .chart-count {
+            font-size:.7rem; font-weight:700; color:var(--muted);
+            line-height:1; min-height:14px;
+        }
+        .chart-bar {
+            width:100%; background:var(--accent); border-radius:5px 5px 0 0;
+            opacity:.55; transition:opacity .2s; min-height:3px;
+        }
+        .chart-bar:hover { opacity:1; }
+        .chart-bar-today { opacity:1; background:var(--dark); }
+        .chart-label-row {
+            display:flex; gap:8px; margin-top:.65rem;
+            border-top:1px solid var(--border); padding-top:.65rem;
+        }
+        .chart-label {
+            flex:1; text-align:center; font-size:.6rem;
+            text-transform:uppercase; letter-spacing:.8px; color:var(--muted); font-weight:600;
+        }
+        .chart-label-today { color:var(--dark); font-weight:700; }
 
         /* ── PRODUCT GRID ── */
         .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
@@ -236,6 +296,26 @@
     </div>
 </div>
 
+<!-- CHANGE PASSWORD MODAL -->
+<div id="pwd-modal-overlay" class="hidden">
+    <div class="pwd-modal-card">
+        <h2>Change Password</h2>
+        <p>Verify your current password, then set a new one.</p>
+        <div class="login-input-wrap">
+            <input type="password" id="pwd-current" placeholder="Current password" autocomplete="current-password">
+        </div>
+        <div class="login-input-wrap">
+            <input type="password" id="pwd-new" placeholder="New password (min. 6 characters)" autocomplete="new-password">
+        </div>
+        <div class="login-input-wrap">
+            <input type="password" id="pwd-confirm" placeholder="Confirm new password" autocomplete="new-password">
+        </div>
+        <button class="login-btn" id="pwd-save-btn">Update Password</button>
+        <button class="pwd-cancel" id="pwd-cancel-btn">Cancel</button>
+        <p class="pwd-feedback hidden" id="pwd-feedback"></p>
+    </div>
+</div>
+
 <!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
 
@@ -244,6 +324,7 @@
         <span class="dash-title">Manager Dashboard</span>
         <div class="dash-header-actions">
             <a href="index.html" class="btn-outline">← Store</a>
+            <button id="change-pwd-btn" class="btn-outline">Change Password</button>
             <button id="logout-btn" class="btn-danger">Logout</button>
         </div>
     </header>
@@ -258,6 +339,18 @@
                 <div class="stat-card"><div class="stat-number" id="stat-revenue">₦0</div><div class="stat-label">Total Revenue</div></div>
                 <div class="stat-card"><div class="stat-number" id="stat-popular">—</div><div class="stat-label">Most Popular Item</div></div>
                 <div class="stat-card"><div class="stat-number" id="stat-active">—</div><div class="stat-label">Products In Stock</div></div>
+                <div class="stat-card"><div class="stat-number" id="stat-total-visits">0</div><div class="stat-label">Total Store Visits</div></div>
+                <div class="stat-card"><div class="stat-number" id="stat-today-visits">0</div><div class="stat-label">Visits Today</div></div>
+            </div>
+        </section>
+
+        <!-- Site Analytics -->
+        <section>
+            <h2 class="section-title">Site Analytics</h2>
+            <div class="visit-chart-wrap">
+                <p class="chart-subtitle">Visits — last 7 days</p>
+                <div class="chart-bars-area" id="visit-chart-bars"></div>
+                <div class="chart-label-row" id="visit-chart-labels"></div>
             </div>
         </section>
 
@@ -300,6 +393,13 @@ function getOrders() {
     try { return JSON.parse(localStorage.getItem('ekobakes_orders') || '[]'); }
     catch { return []; }
 }
+function getVisits() {
+    try { return JSON.parse(localStorage.getItem('ekobakes_visits') || '[]'); }
+    catch { return []; }
+}
+function getPassword() {
+    return localStorage.getItem('ekobakes_password') || DASHBOARD_PASSWORD;
+}
 function nextId(products) { return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; }
 
 /* ── Login ── */
@@ -314,7 +414,7 @@ const clearOrdersBtn = document.getElementById('clear-orders-btn');
 if (sessionStorage.getItem('ekobakes_manager') === '1') showDashboard();
 
 function attemptLogin() {
-    if (passwordInput.value === DASHBOARD_PASSWORD) {
+    if (passwordInput.value === getPassword()) {
         sessionStorage.setItem('ekobakes_manager', '1');
         loginOverlay.style.transition = 'opacity .4s ease';
         loginOverlay.style.opacity = '0';
@@ -337,15 +437,75 @@ clearOrdersBtn.addEventListener('click', () => {
     }
 });
 
+/* ── Change Password Modal ── */
+const pwdModalOverlay = document.getElementById('pwd-modal-overlay');
+const changePwdBtn    = document.getElementById('change-pwd-btn');
+const pwdCancelBtn    = document.getElementById('pwd-cancel-btn');
+const pwdSaveBtn      = document.getElementById('pwd-save-btn');
+const pwdCurrent      = document.getElementById('pwd-current');
+const pwdNew          = document.getElementById('pwd-new');
+const pwdConfirm      = document.getElementById('pwd-confirm');
+const pwdFeedback     = document.getElementById('pwd-feedback');
+
+function openPwdModal() {
+    pwdCurrent.value = ''; pwdNew.value = ''; pwdConfirm.value = '';
+    pwdFeedback.className = 'pwd-feedback hidden'; pwdFeedback.textContent = '';
+    pwdModalOverlay.classList.remove('hidden');
+    setTimeout(() => pwdCurrent.focus(), 50);
+}
+function closePwdModal() {
+    pwdModalOverlay.classList.add('hidden');
+}
+function attemptChangePassword() {
+    const current = pwdCurrent.value;
+    const newPwd  = pwdNew.value;
+    const confirm = pwdConfirm.value;
+
+    if (current !== getPassword()) {
+        pwdFeedback.textContent = 'Current password is incorrect.';
+        pwdFeedback.className = 'pwd-feedback error';
+        pwdCurrent.classList.add('shake');
+        pwdCurrent.value = '';
+        setTimeout(() => pwdCurrent.classList.remove('shake'), 500);
+        return;
+    }
+    if (newPwd.length < 6) {
+        pwdFeedback.textContent = 'New password must be at least 6 characters.';
+        pwdFeedback.className = 'pwd-feedback error';
+        pwdNew.focus(); return;
+    }
+    if (newPwd !== confirm) {
+        pwdFeedback.textContent = 'Passwords do not match — please try again.';
+        pwdFeedback.className = 'pwd-feedback error';
+        pwdConfirm.value = ''; pwdConfirm.focus(); return;
+    }
+
+    localStorage.setItem('ekobakes_password', newPwd);
+    pwdFeedback.textContent = '✓ Password updated successfully.';
+    pwdFeedback.className = 'pwd-feedback success';
+    pwdCurrent.value = ''; pwdNew.value = ''; pwdConfirm.value = '';
+    setTimeout(closePwdModal, 1600);
+}
+
+changePwdBtn.addEventListener('click', openPwdModal);
+pwdCancelBtn.addEventListener('click', closePwdModal);
+pwdModalOverlay.addEventListener('click', e => { if (e.target === pwdModalOverlay) closePwdModal(); });
+pwdSaveBtn.addEventListener('click', attemptChangePassword);
+[pwdCurrent, pwdNew, pwdConfirm].forEach(input => {
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') attemptChangePassword(); });
+});
+
 function showDashboard() {
     dashboardEl.classList.remove('hidden');
-    renderStats(); renderProducts(); renderOrders();
+    renderStats(); renderVisitChart(); renderProducts(); renderOrders();
 }
 
 /* ── Stats ── */
 function renderStats() {
     const orders   = getOrders();
     const products = getProducts();
+    const visits   = getVisits();
+
     document.getElementById('stat-orders').textContent = orders.length;
     const rev = orders.reduce((s, o) => s + o.total, 0);
     document.getElementById('stat-revenue').textContent = '₦' + rev.toLocaleString('en-US', {minimumFractionDigits:0});
@@ -357,6 +517,73 @@ function renderStats() {
     if (top) popEl.title = top[0];
     const active = products.filter(p=>p.inStock).length;
     document.getElementById('stat-active').textContent = active + ' / ' + products.length;
+
+    // Visit stats
+    document.getElementById('stat-total-visits').textContent = visits.length;
+    const todayKey = new Date().toISOString().split('T')[0];
+    const todayCount = visits.filter(v => v.timestamp.startsWith(todayKey)).length;
+    document.getElementById('stat-today-visits').textContent = todayCount;
+}
+
+/* ── Visit Chart ── */
+function renderVisitChart() {
+    const visits  = getVisits();
+    const barsEl  = document.getElementById('visit-chart-bars');
+    const labelsEl = document.getElementById('visit-chart-labels');
+    if (!barsEl || !labelsEl) return;
+
+    // Build last 7 days
+    const today    = new Date();
+    const todayKey = today.toISOString().split('T')[0];
+    const days     = [];
+
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        days.push({
+            key,
+            label:   d.toLocaleDateString('en-US', { weekday: 'short' }),
+            count:   0,
+            isToday: key === todayKey
+        });
+    }
+
+    visits.forEach(v => {
+        const dateKey = v.timestamp.split('T')[0];
+        const day = days.find(d => d.key === dateKey);
+        if (day) day.count++;
+    });
+
+    const maxCount = Math.max(...days.map(d => d.count), 1);
+
+    barsEl.innerHTML   = '';
+    labelsEl.innerHTML = '';
+
+    days.forEach(day => {
+        // Bar column
+        const col = document.createElement('div');
+        col.className = 'chart-col';
+
+        const countEl = document.createElement('div');
+        countEl.className = 'chart-count';
+        countEl.textContent = day.count > 0 ? day.count : '';
+
+        const bar = document.createElement('div');
+        bar.className = 'chart-bar' + (day.isToday ? ' chart-bar-today' : '');
+        const heightPct = Math.max(Math.round((day.count / maxCount) * 100), day.count > 0 ? 5 : 2);
+        bar.style.height = heightPct + '%';
+
+        col.appendChild(countEl);
+        col.appendChild(bar);
+        barsEl.appendChild(col);
+
+        // Label row
+        const labelEl = document.createElement('div');
+        labelEl.className = 'chart-label' + (day.isToday ? ' chart-label-today' : '');
+        labelEl.textContent = day.isToday ? 'Today' : day.label;
+        labelsEl.appendChild(labelEl);
+    });
 }
 
 /* ── Image upload helper ── */

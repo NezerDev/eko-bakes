@@ -48,9 +48,30 @@ function logOrder(items, total) {
 }
 
 // ============================================
+// VISIT TRACKING
+// ============================================
+function logVisit() {
+    try {
+        // Only count once per browser session (prevents refresh inflation)
+        if (sessionStorage.getItem('ekobakes_visit_logged')) return;
+        sessionStorage.setItem('ekobakes_visit_logged', '1');
+
+        const visits = JSON.parse(localStorage.getItem('ekobakes_visits') || '[]');
+        visits.unshift({ timestamp: new Date().toISOString() });
+        // Keep the last 500 visit records
+        localStorage.setItem('ekobakes_visits', JSON.stringify(visits.slice(0, 500)));
+    } catch {
+        // Visit logging is non-critical, fail silently
+    }
+}
+
+// ============================================
 // MAIN INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Log this visit first
+    logVisit();
 
     // ============================================
     // 1. MOBILE MENU LOGIC
