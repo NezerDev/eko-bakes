@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://files.manuscdn.com data:;">
     <title>EKO BAKES | Fresh from the Oven in Lagos</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -84,39 +85,8 @@
             <button class="category-btn" data-filter="cakes">Cakes</button>
         </div>
 
-        <div class="product-grid">
-            <div class="product-card" data-category="bread">
-                <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?auto=format&fit=crop&q=80&w=400" alt="Fresh Loaf - Eko Signature Bread">
-                <div class="product-info">
-                    <h4>Eko Signature Bread</h4>
-                    <p class="price">₦1,500.00</p>
-                    <button class="add-to-cart-btn">Add to Cart</button> 
-                </div>
-            </div>
-            <div class="product-card" data-category="pastries">
-                <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&q=80&w=400" alt="Meat Pie - Spicy Nigerian Meat Pie">
-                <div class="product-info">
-                    <h4>Spicy Nigerian Meat Pie</h4>
-                    <p class="price">₦1,200.00</p>
-                    <button class="add-to-cart-btn">Add to Cart</button> 
-                </div>
-            </div>
-            <div class="product-card" data-category="pastries">
-                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&q=80&w=400" alt="Chin Chin Jar - Crunchy Chin Chin Jar">
-                <div class="product-info">
-                    <h4>Crunchy Chin Chin Jar</h4>
-                    <p class="price">₦3,000.00</p>
-                    <button class="add-to-cart-btn">Add to Cart</button> 
-                </div>
-            </div>
-            <div class="product-card" data-category="cakes">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=400" alt="Celebration Cake - Red Velvet Celebration Cake">
-                <div class="product-info">
-                    <h4>Red Velvet Celebration Cake</h4>
-                    <p class="price">₦18,000.00</p>
-                    <button class="add-to-cart-btn">Add to Cart</button> 
-                </div>
-            </div>
+        <div class="product-grid" id="product-grid">
+            <!-- Products are loaded dynamically by script.js -->
         </div>
     </section>
 
@@ -139,6 +109,10 @@
             <button id="close-cart" class="btn-close">Continue Shopping</button>
         </div>
     </div>
+
+    <footer class="site-footer">
+        <p>© 2026 Eko Bakes &nbsp;·&nbsp; <a href="dashboard.html" class="staff-link">Staff Portal</a></p>
+    </footer>
 
     <script src="script.js"></script>
 </body>

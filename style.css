@@ -1,4 +1,18 @@
 /* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes cartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* ============================================
    PREMIUM COLOR PALETTE & CSS VARIABLES
    ============================================ */
 :root {
@@ -639,7 +653,63 @@ h1, h2, h3, .logo {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   SOLD OUT / OUT OF STOCK
+   ============================================ */
+.product-card.out-of-stock {
+    opacity: 0.75;
+}
+
+.sold-out-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--text-dark);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 30px;
+    z-index: 2;
+}
+
+.product-card {
+    position: relative;
+}
+
+.add-to-cart-btn.out-of-stock-btn {
+    background: rgba(30, 26, 23, 0.25);
+    cursor: not-allowed;
+}
+
+.add-to-cart-btn.out-of-stock-btn:hover {
+    background: rgba(30, 26, 23, 0.25);
+    transform: none;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+    text-align: center;
+    padding: 2rem 5%;
+    font-size: 0.75rem;
+    color: rgba(30, 26, 23, 0.35);
+    position: relative;
+    z-index: 10;
+}
+
+.staff-link {
+    color: rgba(30, 26, 23, 0.25);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.staff-link:hover {
+    color: var(--accent-color);
+}
+
    ============================================ */
 @media (min-width: 768px) {
     .menu-toggle { 
