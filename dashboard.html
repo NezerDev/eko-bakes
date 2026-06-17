@@ -373,8 +373,20 @@
 </div>
 
 <script>
-// ── To change the password, replace 'milkandchocolate' on the line below ──
-const DASHBOARD_PASSWORD = 'milkandchocolate';
+// ── DEFAULT PASSWORD HASH (SHA-256 of the password — not the password itself) ──
+// To reset to a new default password, generate its SHA-256 hash and paste it here.
+const DEFAULT_PASSWORD_HASH = '4ecd2fa667bbbc18fbbd08deee371669a010173d896b7f2f10a5298bd067bcfe';
+
+// Hashes a plain-text string using SHA-256 (built into all modern browsers)
+async function hashPassword(plain) {
+    const encoded = new TextEncoder().encode(plain);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function getPasswordHash() {
+    return localStorage.getItem('ekobakes_password_hash') || DEFAULT_PASSWORD_HASH;
+}
 
 const DEFAULT_PRODUCTS = [
     { id:1, name:'Eko Signature Bread',        price:1500,  category:'bread',    image:'https://images.unsplash.com/photo-1598373182133-52452f7691ef?auto=format&fit=crop&q=80&w=400', alt:'Fresh Loaf', inStock:true },
@@ -397,9 +409,7 @@ function getVisits() {
     try { return JSON.parse(localStorage.getItem('ekobakes_visits') || '[]'); }
     catch { return []; }
 }
-function getPassword() {
-    return localStorage.getItem('ekobakes_password') || DASHBOARD_PASSWORD;
-}
+
 function nextId(products) { return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; }
 
 /* ── Login ── */
@@ -413,8 +423,9 @@ const clearOrdersBtn = document.getElementById('clear-orders-btn');
 
 if (sessionStorage.getItem('ekobakes_manager') === '1') showDashboard();
 
-function attemptLogin() {
-    if (passwordInput.value === getPassword()) {
+async function attemptLogin() {
+    const inputHash = await hashPassword(passwordInput.value);
+    if (inputHash === getPasswordHash()) {
         sessionStorage.setItem('ekobakes_manager', '1');
         loginOverlay.style.transition = 'opacity .4s ease';
         loginOverlay.style.opacity = '0';
@@ -456,12 +467,13 @@ function openPwdModal() {
 function closePwdModal() {
     pwdModalOverlay.classList.add('hidden');
 }
-function attemptChangePassword() {
+async function attemptChangePassword() {
     const current = pwdCurrent.value;
     const newPwd  = pwdNew.value;
     const confirm = pwdConfirm.value;
 
-    if (current !== getPassword()) {
+    const currentHash = await hashPassword(current);
+    if (currentHash !== getPasswordHash()) {
         pwdFeedback.textContent = 'Current password is incorrect.';
         pwdFeedback.className = 'pwd-feedback error';
         pwdCurrent.classList.add('shake');
@@ -480,7 +492,10 @@ function attemptChangePassword() {
         pwdConfirm.value = ''; pwdConfirm.focus(); return;
     }
 
-    localStorage.setItem('ekobakes_password', newPwd);
+    const newHash = await hashPassword(newPwd);
+    localStorage.setItem('ekobakes_password_hash', newHash);
+    // Remove any old plaintext password that may have been stored previously
+    localStorage.removeItem('ekobakes_password');
     pwdFeedback.textContent = '✓ Password updated successfully.';
     pwdFeedback.className = 'pwd-feedback success';
     pwdCurrent.value = ''; pwdNew.value = ''; pwdConfirm.value = '';
